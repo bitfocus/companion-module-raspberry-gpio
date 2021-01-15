@@ -163,9 +163,10 @@ class instance extends instance_skel {
 	}
 
 	initActions() {
+		this.log("info", "Initialising actions")
 		let actions = {};
 
-		if (this.all_active_output_pins_to_display == undefined) {
+		if (this.all_active_output_pins_to_display == undefined || this.all_active_output_pins_to_display.length == 0)  {
 			return;
 		}
 
@@ -179,7 +180,7 @@ class instance extends instance_skel {
 					label : "Pin number",
 					id : "pin_to_set_low",
 					default : default_option,
-					choices : this.active_output_pins_to_display
+					choices : this.all_active_output_pins_to_display
 				}
 			]
 		}
@@ -192,7 +193,7 @@ class instance extends instance_skel {
 					label : "Pin number",
 					id : "pin_to_set_high",
 					default : default_option,
-					choices : this.active_output_pins_to_display
+					choices : this.all_active_output_pins_to_display
 				}
 			]
 		}
@@ -201,6 +202,7 @@ class instance extends instance_skel {
 	}
 
 	initPresets() {
+		this.log("info", "Initialising presets")
 		let preset_definitions = [];
 
 		let i;
@@ -351,13 +353,14 @@ class instance extends instance_skel {
 	}
 
 	initFeedbacks() {
+		this.log("info", "Initialising feedbacks")
 		let feedbacks = {};
 
-		if (this.all_active_pin_nums_to_display == undefined) {
+		if (this.all_active_pin_nums_to_display == undefined || this.all_active_pin_nums_to_display.length == 0) {
 			return;
 		}
 
-		let default_option = this.all_active_output_pins_to_display[0]["id"]
+		let default_option = this.all_active_pin_nums_to_display[0]["id"]
 
 		feedbacks["pin_state_feedback"] = {
 			label : "State of GPIO pin (HIGH/LOW)",
@@ -403,6 +406,7 @@ class instance extends instance_skel {
 	}
 
 	initVariables() {
+		this.log("info", "Initialising variables")
 		let variable_definitions = [];
 
 		let i;
@@ -433,6 +437,7 @@ class instance extends instance_skel {
 	}
 
 	processConfig() {
+		this.log("info", "Processing config")
 		let i;
 		this.active_output_pins = [];
 		this.all_active_output_pins_to_display = [];
@@ -487,6 +492,7 @@ class instance extends instance_skel {
 	}
 
 	setupGPIO() {
+		this.log("info", "Setting up GPIO")
 		this.active_output_pin_objects = {};
 		this.active_input_pin_objects = {};
 
@@ -592,6 +598,7 @@ class instance extends instance_skel {
 	}
 
 	start_polling_for_states() {
+		this.log("info", "Started polling regularly")
 		this.states_poller = setInterval(this.poll_for_all_active_pin_states.bind(this), this.config.refresh_interval);
 
 		let i;
