@@ -1,18 +1,16 @@
 {
   "name": "raspberry-gpio",
   "version": "1.0.0",
-  "description": "Module for local control of RaspberryPi GPIO intended to run on CompanionPi",
   "main": "index.js",
-  "keywords": ["Raspberry Pi", "GPIO"],
-  "manufacturer": "Raspberry Pi foundation",
-  "product" : "RPi GPIO",
-  "shortname" : "RPi GPIO",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Matěj Melichna",
   "license": "MIT",
   "dependencies": {
+    "@companion-module/base": "~1.4.0",
     "onoff": "^6.0.0"
+  },
+  "devDependencies": {
+    "@companion-module/tools": "^1.4.1"
   }
 }

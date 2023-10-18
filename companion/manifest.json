@@ -1,0 +1,30 @@
+{
+	"id": "raspberry-gpio",
+	"name": "raspberry-gpio",
+	"shortname": "RPi GPIO",
+	"description": "Module for local control of RaspberryPi GPIO intended to run on CompanionPi",
+	"version": "0.0.0",
+	"license": "MIT",
+	"repository": "https://github.com/bitfocus/companion-module-raspberry-gpio.git",
+	"bugs": "https://github.com/bitfocus/companion-module-raspberry-gpio/issues",
+	"maintainers": [
+		{
+			"name": "Matěj Melichna"
+		}
+	],
+	"legacyIds": [],
+	"runtime": {
+		"type": "node18",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../index.js"
+	},
+	"manufacturer": "Raspberry Pi foundation",
+	"products": [
+		"RPi GPIO"
+	],
+	"keywords": [
+		"Raspberry Pi",
+		"GPIO"
+	]
+}
