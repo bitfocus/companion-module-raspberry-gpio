@@ -10,9 +10,12 @@
   "prettier": "@companion-module/tools/.prettierrc.json",
   "dependencies": {
     "@companion-module/base": "~1.4.0",
-    "onoff": "^6.0.0"
+    "onoff": "^6.0.2"
   },
   "devDependencies": {
     "@companion-module/tools": "^1.4.1"
+  },
+  "resolutions": {
+    "epoll": "npm:@julusian/epoll#^5.0.0-0"
   }
 }
