@@ -10,6 +10,10 @@
 	"maintainers": [
 		{
 			"name": "Matěj Melichna"
+		},
+		{
+			"name": "Julian Waller",
+			"email": "companion@julusian.co.uk"
 		}
 	],
 	"legacyIds": [],
@@ -20,11 +24,6 @@
 		"entrypoint": "../lib/main.js"
 	},
 	"manufacturer": "Raspberry Pi foundation",
-	"products": [
-		"RPi GPIO"
-	],
-	"keywords": [
-		"Raspberry Pi",
-		"GPIO"
-	]
+	"products": ["RPi GPIO"],
+	"keywords": ["Raspberry Pi", "GPIO"]
 }
