@@ -791,10 +791,10 @@ envinfo@^7.7.3:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.12.0.tgz#b56723b39c2053d67ea5714f026d05d4f5cc7acd"
   integrity sha512-Iw9rQJBGpJRd3rwXm9ft/JiGoAZmLxxJZELYDQoPRZ4USVhkKtIcNBPw6U+/K2mBpaqM25JSV6Yl4Az9vO2wJg==
 
-epoll@^4.0.1, "epoll@npm:@julusian/epoll#^5.0.0-0":
-  version "5.0.0-0"
-  resolved "https://registry.yarnpkg.com/@julusian/epoll/-/epoll-5.0.0-0.tgz#c51790ad04ff77598d4bb62ce3f2ba764a46f131"
-  integrity sha512-lxK5BC0J2XW9dmdpN8f7V2ER+cgMXjXjjtVg1AHBCFao2AkDcHmNKgVXYDsNT+1J6w/CN8LNWoiK3t44EWiqxA==
+epoll@^4.0.1, "epoll@npm:@julusian/epoll#^5.0.0-1":
+  version "5.0.0-1"
+  resolved "https://registry.yarnpkg.com/@julusian/epoll/-/epoll-5.0.0-1.tgz#2226ea07db147c84a74f7e0c4fd49236dcc896c3"
+  integrity sha512-9isjePOE0xwISts4IEDif83d9lobt/sNutbc5xK5lRdFUKpOVuRCjmq2BmXFRNSBA4mu/lk1qErwOo3VHCuZDw==
   dependencies:
     node-addon-api "^7.1.0"
     pkg-prebuilds "^1.0.0"

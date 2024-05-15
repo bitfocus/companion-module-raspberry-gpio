@@ -16,6 +16,6 @@
     "@companion-module/tools": "^1.5.0"
   },
   "resolutions": {
-    "epoll": "npm:@julusian/epoll#^5.0.0-0"
+    "epoll": "npm:@julusian/epoll#^5.0.0-1"
   }
 }
