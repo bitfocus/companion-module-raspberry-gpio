@@ -13,7 +13,7 @@
     "onoff": "^6.0.2"
   },
   "devDependencies": {
-    "@companion-module/tools": "^1.5.0"
+    "@companion-module/tools": "^1.5.2"
   },
   "resolutions": {
     "epoll": "npm:@julusian/epoll#^5.0.0-1"
