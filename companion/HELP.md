@@ -95,3 +95,18 @@ With ***Register as a surface*** on, the module connects to Companion's Satellit
 - Every Key, Encoder, Joystick, Pedal, Angle and Switch gets a key on that surface, in chain order. Change it per unit with *Key on the Chain surface* (0 takes the unit off the surface).
 - Buttons press their key. Encoders, angles and switches turn it, so turn on *Enable rotary actions* on those buttons. *Angle/slider: raw units per surface step* sets how far an angle or switch moves per step.
 - A unit's LED takes the colour of its key unless its *LED* setting is *Only set by actions*.
+
+### Patches ###
+A patch sends one unit to a button somewhere else. Set *Number of patches* and save to get their fields.
+- ***Input***
+    - *Turn* - an encoder steps the target by its turn, an angle or switch by one step per *raw units per step*.
+    - *Joystick X / Y* - one step when the stick leaves the *dead zone*, then repeats while it is held, faster the further it is pushed.
+    - *Button* - one step in the chosen direction per press, repeating while held.
+    - *Two buttons* - the unit turns left and the *second button* turns right.
+- ***Does*** - *Turn* steps the target left or right; *Press* presses and releases it with the button or stick.
+- ***Target***
+    - *Button at page/row/column* - a fixed button, through Companion's HTTP API (*Companion HTTP host/port*, 127.0.0.1:8000 by default). Works without the surface.
+    - *Key on the Chain surface* - a key of the surface above, so it follows the page that surface is on.
+    - *Turn value in this module* - a number between *Min* and *Max* in steps of *Step*, shown as variable `value_<name>`, with the action *Chain: set or adjust a turn value* and the feedback *Chain: turn value compare*.
+
+Turning a button needs *Enable rotary actions* on it.

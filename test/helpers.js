@@ -1,4 +1,5 @@
 // @ts-check
+import * as http from 'node:http'
 import * as net from 'node:net'
 
 /** Wait until fn() is truthy or time runs out. @param {() => any} fn */
@@ -35,6 +36,19 @@ export function fakeInstance(config = {}) {
 			this.saved.push(c)
 		},
 	}
+}
+
+/** Records Companion HTTP API calls. */
+export async function fakeHttpApi() {
+	/** @type {string[]} */
+	const calls = []
+	const server = http.createServer((req, res) => {
+		calls.push(`${req.method} ${req.url}`)
+		res.end('ok')
+	})
+	await new Promise((r) => server.listen(0, '127.0.0.1', () => r(null)))
+	const port = /** @type {net.AddressInfo} */ (server.address()).port
+	return { calls, port, close: () => server.close() }
 }
 
 /** A tiny Companion Satellite server: accepts devices and records what they send. */
