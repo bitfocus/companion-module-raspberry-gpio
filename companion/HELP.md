@@ -94,7 +94,7 @@ With the simulated Chain, *Chain simulator: operate a unit* and *Chain simulator
 With ***Register as a surface*** on, the module connects to Companion's Satellite API (port 16622) and the Chain appears under *Surfaces* like any other surface, so it follows whatever page you give it there.
 - Every Key, Encoder, Joystick, Pedal, Angle and Switch gets a key on that surface, in chain order. Change it per unit with *Key on the Chain surface* (0 takes the unit off the surface).
 - Buttons press their key. Encoders, angles and switches turn it, so turn on *Enable rotary actions* on those buttons. *Angle/slider: raw units per surface step* sets how far an angle or switch moves per step.
-- A unit's LED takes the colour of its key unless its *LED* setting is *Only set by actions*.
+- A unit's LED takes the colour of its key (see *Unit LEDs* below).
 
 ### Patches ###
 A patch sends one unit to a button somewhere else. Set *Number of patches* and save to get their fields.
@@ -110,3 +110,13 @@ A patch sends one unit to a button somewhere else. Set *Number of patches* and s
     - *Turn value in this module* - a number between *Min* and *Max* in steps of *Step*, shown as variable `value_<name>`, with the action *Chain: set or adjust a turn value* and the feedback *Chain: turn value compare*.
 
 Turning a button needs *Enable rotary actions* on it.
+
+### Unit LEDs ###
+Each unit's LED shows, in this order:
+1. the colour of the button it is patched to, when the patch has *Unit LED shows the target's colour* on. For a button at page/row/column this needs Companion's *Settings*, *Satellite*, *Button Subscriptions API* turned on; the module says so in its log when it is off.
+2. the colour of its key on the Chain surface;
+3. otherwise the colour from the action ***Chain: set the colour of an unpatched unit***. That action only lists units that follow nothing, and the colour comes back when the unit is plugged in again.
+
+A unit's *LED* setting *Set by actions only* skips the first two.
+
+***LED colours from buttons*** - *Vivid* (default) shows button colours the way the ATOM Matrix does: a colourful button at full brightness with its saturation pushed 30 % toward full, a white or light grey button as white, a dark one as off, then gamma 2.2. *Exact* passes the button colour through unchanged. Colours from the action are always shown as picked.

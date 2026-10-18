@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { ChainManager } from '../lib/chain/index.js'
+import { ChainLeds, vivid } from '../lib/chain/leds.js'
 import { ChainSurface } from '../lib/chain/surface.js'
 import { fakeInstance, fakeSatelliteServer, until } from './helpers.js'
 
@@ -17,7 +18,7 @@ test('the Chain shows up as a Companion surface and its LEDs follow key colours'
 		sat_cols: 5,
 	}
 	const self = fakeInstance(config)
-	const m = new ChainManager(/** @type {any} */ (self), () => {}, [(x) => new ChainSurface(x)])
+	const m = new ChainManager(/** @type {any} */ (self), () => {}, [(x) => new ChainSurface(x), (x) => new ChainLeds(x)])
 	await m.start(config)
 	const adds = () => sat.lines.filter((l) => l.startsWith('ADD-DEVICE'))
 	try {
@@ -40,7 +41,7 @@ test('the Chain shows up as a Companion surface and its LEDs follow key colours'
 		await until(() => sat.lines.some((l) => /KEY-PRESS .*KEY=0 PRESSED=false/.test(l)))
 
 		sat.send(`KEY-STATE DEVICEID=${id} KEY=2 TYPE=BUTTON COLOR=#ff8000 TEXTCOLOR=#ffffff PRESSED=0`)
-		await until(() => sim.unit(3).led.join() === '255,128,0')
+		await until(() => sim.unit(3).led.join() === vivid([255, 128, 0]).join())
 
 		// a new unit grows the surface
 		sim.plug('encoder')

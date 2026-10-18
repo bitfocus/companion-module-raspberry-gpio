@@ -51,8 +51,12 @@ export async function fakeHttpApi() {
 	return { calls, port, close: () => server.close() }
 }
 
-/** A tiny Companion Satellite server: accepts devices and records what they send. */
-export async function fakeSatelliteServer() {
+/**
+ * A tiny Companion Satellite server: accepts devices and records what they send.
+ * With `buttons`, it also allows button subscriptions and answers them with those colours.
+ * @param {{ buttons?: Record<string, string> }} [opts] location "page/row/column" -> "#rrggbb"
+ */
+export async function fakeSatelliteServer(opts = {}) {
 	/** @type {string[]} */
 	const lines = []
 	/** @type {net.Socket[]} */
@@ -60,6 +64,7 @@ export async function fakeSatelliteServer() {
 	const server = net.createServer((sock) => {
 		sockets.push(sock)
 		sock.write('BEGIN CompanionVersion=4.2.0 ApiVersion=1.10.0\n')
+		sock.write(`CAPS SUBSCRIPTIONS=${opts.buttons ? 1 : 0} NONSQUARE=1\n`)
 		let buf = ''
 		sock.on('data', (d) => {
 			buf += d.toString()
@@ -73,6 +78,12 @@ export async function fakeSatelliteServer() {
 					sock.write(`ADD-DEVICE OK DEVICEID=${id}\n`)
 				}
 				if (line.startsWith('PING')) sock.write(`PONG${line.slice(4)}\n`)
+				if (line.startsWith('ADD-SUB') && opts.buttons) {
+					const id = /SUBID=(\S+)/.exec(line)?.[1]
+					const loc = /LOCATION=(\S+)/.exec(line)?.[1] ?? ''
+					sock.write(`ADD-SUB OK SUBID=${id}\n`)
+					sock.write(`SUB-STATE SUBID=${id} TYPE=BUTTON COLOR=${opts.buttons[loc] ?? '#000000'} PRESSED=0\n`)
+				}
 			}
 		})
 	})
