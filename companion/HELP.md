@@ -40,3 +40,52 @@ There are following options:
 - ***Invert values on this pin*** - this option inverts the logic values on the input pin, when the input signal is *LOW* (eg. *0*) the value read from pin is *HIGH* (eg. *1* and when the input signal is *HIGH* (eg. *1*) the value read from pin is *LOW* (eg. *0*)
 
 The module also reads the current state of all configured pins regularly with adjustable interval. This interval is set on top od config window - option ***GPIO Pins state refresh interval (ms)***
+
+## M5Stack Chain ##
+The module can also read M5Stack Chain units (Key, Encoder, Joystick, Angle, Switch, Pedal, ToF, PIR) daisy-chained on one of the Pi's serial ports. Each unit gets its own variables, and new units are picked up while the module runs.
+
+### Wiring ###
+Chain units talk 3.3 V UART at 115200 baud and take 5 V power, so they connect straight to the Pi header:
+
+| Chain cable | Pi header |
+|---|---|
+| 5V (red) | pin 2 or 4 |
+| GND (black) | pin 6 |
+| signal | pin 8 (GPIO14, TXD) |
+| signal | pin 10 (GPIO15, RXD) |
+
+Plug the cable into the first unit's input side. If the module says no unit answers, swap the two signal wires.
+
+The Pi's UART has to be on and its serial console off: run `sudo raspi-config`, go to *Interface Options*, *Serial Port*, answer *No* to the login shell and *Yes* to the serial port hardware, then reboot. On a Pi 3, 4 or Zero W, adding `dtoverlay=disable-bt` to `/boot/firmware/config.txt` gives the Chain the full UART instead of the mini UART, whose speed drifts with the CPU clock.
+
+While the Chain uses `/dev/serial0` (GPIO14 and GPIO15), those two pins can't be set up as plain GPIO pins below.
+
+A USB serial adapter (`/dev/ttyUSB0`) works too and leaves the GPIO pins free.
+
+### Settings ###
+- ***Use a Chain bus*** - turns the Chain part of the module on.
+- ***Serial port*** - `/dev/serial0` for GPIO14/15, or any other port. *Simulated Chain* runs without hardware, with the units listed in *Simulated units*.
+- ***Pause between polls*** - the module asks every unit for its state in turn, then waits this long.
+- ***Units found*** - every unit the module has seen, and whether it is connected now. Each one gets a name, which is the prefix of its variables. Units stay in the list when unplugged, so their settings come back with them; tick *Forget units that are not connected* and save to clear them out.
+
+### Variables ###
+Per unit, with its name as prefix (for example `encoder1_value`):
+- Key: `pressed` (0/1), `click` (single, double, long)
+- Encoder: `value` (count), `delta` (last turn), `pressed`, `click`
+- Joystick: `x` and `y` (-100..100), `pressed`, `click`
+- Angle: `value` (0-100 %), `raw` (0-4095)
+- Switch: `value`, `raw`, `on`
+- Pedal: `pressed`, `click`, `on`
+- ToF: `distance` (mm)
+- PIR: `person` (0/1)
+- every unit: `online` (0/1)
+
+Plus `chain_status` and `chain_count` for the bus.
+
+### Actions and feedbacks ###
+- ***Chain: set unit LED*** - colour and brightness of a unit's LED.
+- ***Chain: reset encoder count***
+- ***Chain: rescan the bus***
+- Feedbacks: *button held*, *last click was*, *unit is connected* and *unit value compare*.
+
+With the simulated Chain, *Chain simulator: operate a unit* and *Chain simulator: plug a unit onto the end* stand in for the hardware.
