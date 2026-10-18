@@ -1,4 +1,6 @@
 // @ts-check
+import * as net from 'node:net'
+
 /** Wait until fn() is truthy or time runs out. @param {() => any} fn */
 export async function until(fn, ms = 2000, label = String(fn)) {
 	const end = Date.now() + ms
@@ -31,6 +33,45 @@ export function fakeInstance(config = {}) {
 		checkFeedbacks() {},
 		saveConfig(/** @type {any} */ c) {
 			this.saved.push(c)
+		},
+	}
+}
+
+/** A tiny Companion Satellite server: accepts devices and records what they send. */
+export async function fakeSatelliteServer() {
+	/** @type {string[]} */
+	const lines = []
+	/** @type {net.Socket[]} */
+	const sockets = []
+	const server = net.createServer((sock) => {
+		sockets.push(sock)
+		sock.write('BEGIN CompanionVersion=4.2.0 ApiVersion=1.10.0\n')
+		let buf = ''
+		sock.on('data', (d) => {
+			buf += d.toString()
+			let nl
+			while ((nl = buf.indexOf('\n')) !== -1) {
+				const line = buf.slice(0, nl)
+				buf = buf.slice(nl + 1)
+				lines.push(line)
+				if (line.startsWith('ADD-DEVICE')) {
+					const id = /DEVICEID=(\S+)/.exec(line)?.[1]
+					sock.write(`ADD-DEVICE OK DEVICEID=${id}\n`)
+				}
+				if (line.startsWith('PING')) sock.write(`PONG${line.slice(4)}\n`)
+			}
+		})
+	})
+	await new Promise((r) => server.listen(0, '127.0.0.1', () => r(null)))
+	const port = /** @type {net.AddressInfo} */ (server.address()).port
+	return {
+		lines,
+		port,
+		/** @param {string} s */
+		send: (s) => sockets.forEach((k) => k.write(s + '\n')),
+		close: () => {
+			sockets.forEach((k) => k.destroy())
+			server.close()
 		},
 	}
 }

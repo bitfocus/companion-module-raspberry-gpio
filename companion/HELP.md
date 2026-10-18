@@ -89,3 +89,9 @@ Plus `chain_status` and `chain_count` for the bus.
 - Feedbacks: *button held*, *last click was*, *unit is connected* and *unit value compare*.
 
 With the simulated Chain, *Chain simulator: operate a unit* and *Chain simulator: plug a unit onto the end* stand in for the hardware.
+
+### Chain as a Companion surface ###
+With ***Register as a surface*** on, the module connects to Companion's Satellite API (port 16622) and the Chain appears under *Surfaces* like any other surface, so it follows whatever page you give it there.
+- Every Key, Encoder, Joystick, Pedal, Angle and Switch gets a key on that surface, in chain order. Change it per unit with *Key on the Chain surface* (0 takes the unit off the surface).
+- Buttons press their key. Encoders, angles and switches turn it, so turn on *Enable rotary actions* on those buttons. *Angle/slider: raw units per surface step* sets how far an angle or switch moves per step.
+- A unit's LED takes the colour of its key unless its *LED* setting is *Only set by actions*.
