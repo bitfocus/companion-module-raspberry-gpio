@@ -9,7 +9,7 @@
   "license": "MIT",
   "prettier": "@companion-module/tools/.prettierrc.json",
   "dependencies": {
-    "@companion-module/base": "~1.7.0",
+    "@companion-module/base": "~1.14.1",
     "onoff": "^6.0.2"
   },
   "devDependencies": {
